@@ -22,11 +22,12 @@
 
 // Returns an array of |TPGPGKey|s.
 - (NSArray*)listPublicKeys;
-- (NSArray*)listPrivateKeys;
+- (NSArray*)listSecretKeys;
 
 // Returns the |TPGPGKey| associated to the given |fingerprint|.
 // Returns NULL if the key does not exist.
-- (TPGPGKey*)getKeyWithFingerprint:(NSString*)fingerprint;
+- (TPGPGKey*)getPublicKeyWithFingerprint:(NSString*)fingerprint;
+- (TPGPGKey*)getSecretKeyWithFingerprint:(NSString*)fingerprint;
 
 // Encrypts some |data| with the given |key|.
 - (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key;

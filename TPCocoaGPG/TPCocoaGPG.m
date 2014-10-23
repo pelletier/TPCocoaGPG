@@ -27,14 +27,30 @@
 #pragma mark Keys management
 
 - (NSArray*)listPublicKeys {
-  return [self listKeysForSecretKeys:NO];
+  return [self listKeysForSecretKeys:NO andFilter:nil];
 }
 
-- (NSArray*)listPrivateKeys {
-  return [self listKeysForSecretKeys:YES];
+- (NSArray*)listSecretKeys {
+  return [self listKeysForSecretKeys:YES andFilter:nil];
 }
 
-- (NSArray*)listKeysForSecretKeys:(BOOL)secret {
+- (TPGPGKey*)getSecretKeyWithFingerprint:(NSString*)fingerprint {
+  NSArray* keys = [self listKeysForSecretKeys:YES andFilter:fingerprint];
+  if (keys.count == 0) {
+    return nil;
+  }
+  return keys.firstObject;
+}
+
+- (TPGPGKey*)getPublicKeyWithFingerprint:(NSString*)fingerprint {
+  NSArray* keys = [self listKeysForSecretKeys:NO andFilter:fingerprint];
+  if (keys.count == 0) {
+    return nil;
+  }
+  return keys.firstObject;
+}
+
+- (NSArray*)listKeysForSecretKeys:(BOOL)secret andFilter:(NSString*)fingerprint {
   NSMutableArray* stdoutLines;
   NSError* error;
   
@@ -44,6 +60,9 @@
     [args addObject:@"--list-secret-keys"];
   } else {
     [args addObject:@"--list-keys"];
+  }
+  if (fingerprint != nil) {
+    [args addObject:fingerprint];
   }
   [self execCommand:args withInput:nil stderrChunks:nil stdoutLines:&stdoutLines andError:&error];
   
@@ -63,7 +82,7 @@
     if (![type isEqualToString:@"sec"] && ![type isEqualToString:@"pub"]) {
       continue;
     }
-
+    
     // Generate the new key object
     TPGPGKey* key = [[TPGPGKey alloc] init];
     for (unsigned i = 0; i < parsedFields.count; ++i) {
@@ -77,10 +96,6 @@
 
 - (void)importIntoKeyring:(NSString*)key {
   [self execCommand:@[@"--import"] withInput:key stderrChunks:nil stdoutLines:nil andError:nil];
-}
-
-- (TPGPGKey*)getKeyWithFingerprint:(NSString*)fingerprint {
-  return nil;
 }
 
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key {
