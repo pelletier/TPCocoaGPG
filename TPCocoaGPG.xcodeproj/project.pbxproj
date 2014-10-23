@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E9A832BB19F95C320012FD16 /* TPCocoaGPG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */; };
+		E9A832BD19F95C320012FD16 /* TPCocoaGPG.m in Sources */ = {isa = PBXBuildFile; fileRef = E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */; };
+		E9A832C319F95C320012FD16 /* libTPCocoaGPG.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9A832C419F95C320012FD16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9A832AF19F95C320012FD16 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9A832B619F95C320012FD16;
+			remoteInfo = TPCocoaGPG;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTPCocoaGPG.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPCocoaGPG.h; sourceTree = "<group>"; };
+		E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPCocoaGPG.m; sourceTree = "<group>"; };
+		E9A832C219F95C320012FD16 /* TPCocoaGPGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TPCocoaGPGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A832C819F95C320012FD16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E9A832B419F95C320012FD16 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9A832BF19F95C320012FD16 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9A832C319F95C320012FD16 /* libTPCocoaGPG.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E9A832AE19F95C320012FD16 = {
+			isa = PBXGroup;
+			children = (
+				E9A832B919F95C320012FD16 /* TPCocoaGPG */,
+				E9A832C619F95C320012FD16 /* TPCocoaGPGTests */,
+				E9A832B819F95C320012FD16 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E9A832B819F95C320012FD16 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */,
+				E9A832C219F95C320012FD16 /* TPCocoaGPGTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9A832B919F95C320012FD16 /* TPCocoaGPG */ = {
+			isa = PBXGroup;
+			children = (
+				E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */,
+				E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */,
+			);
+			path = TPCocoaGPG;
+			sourceTree = "<group>";
+		};
+		E9A832C619F95C320012FD16 /* TPCocoaGPGTests */ = {
+			isa = PBXGroup;
+			children = (
+				E9A832C719F95C320012FD16 /* Supporting Files */,
+			);
+			path = TPCocoaGPGTests;
+			sourceTree = "<group>";
+		};
+		E9A832C719F95C320012FD16 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9A832C819F95C320012FD16 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E9A832B519F95C320012FD16 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9A832BB19F95C320012FD16 /* TPCocoaGPG.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E9A832B619F95C320012FD16 /* TPCocoaGPG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9A832CB19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPG" */;
+			buildPhases = (
+				E9A832B319F95C320012FD16 /* Sources */,
+				E9A832B419F95C320012FD16 /* Frameworks */,
+				E9A832B519F95C320012FD16 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TPCocoaGPG;
+			productName = TPCocoaGPG;
+			productReference = E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		E9A832C119F95C320012FD16 /* TPCocoaGPGTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9A832CE19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPGTests" */;
+			buildPhases = (
+				E9A832BE19F95C320012FD16 /* Sources */,
+				E9A832BF19F95C320012FD16 /* Frameworks */,
+				E9A832C019F95C320012FD16 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9A832C519F95C320012FD16 /* PBXTargetDependency */,
+			);
+			name = TPCocoaGPGTests;
+			productName = TPCocoaGPGTests;
+			productReference = E9A832C219F95C320012FD16 /* TPCocoaGPGTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E9A832AF19F95C320012FD16 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Thomas Pelletier";
+				TargetAttributes = {
+					E9A832B619F95C320012FD16 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					E9A832C119F95C320012FD16 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = E9A832B219F95C320012FD16 /* Build configuration list for PBXProject "TPCocoaGPG" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E9A832AE19F95C320012FD16;
+			productRefGroup = E9A832B819F95C320012FD16 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E9A832B619F95C320012FD16 /* TPCocoaGPG */,
+				E9A832C119F95C320012FD16 /* TPCocoaGPGTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E9A832C019F95C320012FD16 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E9A832B319F95C320012FD16 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9A832BD19F95C320012FD16 /* TPCocoaGPG.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9A832BE19F95C320012FD16 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9A832C519F95C320012FD16 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9A832B619F95C320012FD16 /* TPCocoaGPG */;
+			targetProxy = E9A832C419F95C320012FD16 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E9A832C919F95C320012FD16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E9A832CA19F95C320012FD16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E9A832CC19F95C320012FD16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E9A832CD19F95C320012FD16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E9A832CF19F95C320012FD16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TPCocoaGPGTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E9A832D019F95C320012FD16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TPCocoaGPGTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E9A832B219F95C320012FD16 /* Build configuration list for PBXProject "TPCocoaGPG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9A832C919F95C320012FD16 /* Debug */,
+				E9A832CA19F95C320012FD16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9A832CB19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9A832CC19F95C320012FD16 /* Debug */,
+				E9A832CD19F95C320012FD16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E9A832CE19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPGTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9A832CF19F95C320012FD16 /* Debug */,
+				E9A832D019F95C320012FD16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E9A832AF19F95C320012FD16 /* Project object */;
+}
