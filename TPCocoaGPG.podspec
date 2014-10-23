@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name                    = 'TPCocoaGPG'
-  spec.version                 = '0.1.0'
+  spec.version                 = '0.1.1'
   spec.license                 = { :type => 'MIT', :file => 'LICENSE' }
   spec.homepage                = 'https://github.com/pelletier/TPCocoaGPG'
   spec.authors                 = { 'Thomas Pelletier' => 'pelletier.thomas@gmail.com' }
