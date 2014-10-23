@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB82A07958833850CC71CF50 /* libPods-TPCocoaGPGTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4410A4FE2AC53F07D8698B /* libPods-TPCocoaGPGTests.a */; };
+		E91A2C7019F95CC000745548 /* TPGPGKey.h in Headers */ = {isa = PBXBuildFile; fileRef = E91A2C6E19F95CC000745548 /* TPGPGKey.h */; };
+		E91A2C7119F95CC000745548 /* TPGPGKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E91A2C6F19F95CC000745548 /* TPGPGKey.m */; };
+		E91A2C7319F9644B00745548 /* TPCocoaGPGSpecs.m in Sources */ = {isa = PBXBuildFile; fileRef = E91A2C7219F9644B00745548 /* TPCocoaGPGSpecs.m */; };
+		E91A2C7819F973DA00745548 /* TPGPGOutputChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = E91A2C7619F973DA00745548 /* TPGPGOutputChunk.h */; };
+		E91A2C7919F973DA00745548 /* TPGPGOutputChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = E91A2C7719F973DA00745548 /* TPGPGOutputChunk.m */; };
+		E91A2C7C19F9829900745548 /* example.pub in Resources */ = {isa = PBXBuildFile; fileRef = E91A2C7A19F9829900745548 /* example.pub */; };
+		E91A2C7D19F9829900745548 /* example.sec in Resources */ = {isa = PBXBuildFile; fileRef = E91A2C7B19F9829900745548 /* example.sec */; };
 		E9A832BB19F95C320012FD16 /* TPCocoaGPG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */; };
 		E9A832BD19F95C320012FD16 /* TPCocoaGPG.m in Sources */ = {isa = PBXBuildFile; fileRef = E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */; };
 		E9A832C319F95C320012FD16 /* libTPCocoaGPG.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */; };
@@ -23,6 +31,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22D1831653A3DC45580A2212 /* Pods-TPCocoaGPGTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TPCocoaGPGTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TPCocoaGPGTests/Pods-TPCocoaGPGTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3C81289A57E4C8E1C86D237D /* Pods-TPCocoaGPGTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TPCocoaGPGTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TPCocoaGPGTests/Pods-TPCocoaGPGTests.release.xcconfig"; sourceTree = "<group>"; };
+		BB4410A4FE2AC53F07D8698B /* libPods-TPCocoaGPGTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TPCocoaGPGTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E91A2C6E19F95CC000745548 /* TPGPGKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPGPGKey.h; sourceTree = "<group>"; };
+		E91A2C6F19F95CC000745548 /* TPGPGKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPGPGKey.m; sourceTree = "<group>"; };
+		E91A2C7219F9644B00745548 /* TPCocoaGPGSpecs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPCocoaGPGSpecs.m; sourceTree = "<group>"; };
+		E91A2C7619F973DA00745548 /* TPGPGOutputChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPGPGOutputChunk.h; sourceTree = "<group>"; };
+		E91A2C7719F973DA00745548 /* TPGPGOutputChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPGPGOutputChunk.m; sourceTree = "<group>"; };
+		E91A2C7A19F9829900745548 /* example.pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.pub; sourceTree = "<group>"; };
+		E91A2C7B19F9829900745548 /* example.sec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.sec; sourceTree = "<group>"; };
 		E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTPCocoaGPG.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPCocoaGPG.h; sourceTree = "<group>"; };
 		E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPCocoaGPG.m; sourceTree = "<group>"; };
@@ -43,18 +61,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9A832C319F95C320012FD16 /* libTPCocoaGPG.dylib in Frameworks */,
+				AB82A07958833850CC71CF50 /* libPods-TPCocoaGPGTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		400E6891356D86A96D9D5E48 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				22D1831653A3DC45580A2212 /* Pods-TPCocoaGPGTests.debug.xcconfig */,
+				3C81289A57E4C8E1C86D237D /* Pods-TPCocoaGPGTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		923D02C32E5D106C68E00A3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BB4410A4FE2AC53F07D8698B /* libPods-TPCocoaGPGTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E9A832AE19F95C320012FD16 = {
 			isa = PBXGroup;
 			children = (
 				E9A832B919F95C320012FD16 /* TPCocoaGPG */,
 				E9A832C619F95C320012FD16 /* TPCocoaGPGTests */,
 				E9A832B819F95C320012FD16 /* Products */,
+				400E6891356D86A96D9D5E48 /* Pods */,
+				923D02C32E5D106C68E00A3C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,6 +110,10 @@
 			children = (
 				E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */,
 				E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */,
+				E91A2C6E19F95CC000745548 /* TPGPGKey.h */,
+				E91A2C6F19F95CC000745548 /* TPGPGKey.m */,
+				E91A2C7619F973DA00745548 /* TPGPGOutputChunk.h */,
+				E91A2C7719F973DA00745548 /* TPGPGOutputChunk.m */,
 			);
 			path = TPCocoaGPG;
 			sourceTree = "<group>";
@@ -80,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				E9A832C719F95C320012FD16 /* Supporting Files */,
+				E91A2C7219F9644B00745548 /* TPCocoaGPGSpecs.m */,
 			);
 			path = TPCocoaGPGTests;
 			sourceTree = "<group>";
@@ -87,6 +130,8 @@
 		E9A832C719F95C320012FD16 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E91A2C7A19F9829900745548 /* example.pub */,
+				E91A2C7B19F9829900745548 /* example.sec */,
 				E9A832C819F95C320012FD16 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -99,7 +144,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91A2C7819F973DA00745548 /* TPGPGOutputChunk.h in Headers */,
 				E9A832BB19F95C320012FD16 /* TPCocoaGPG.h in Headers */,
+				E91A2C7019F95CC000745548 /* TPGPGKey.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,9 +174,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9A832CE19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPGTests" */;
 			buildPhases = (
+				B61AE74028C8FE3F6110F0BD /* Check Pods Manifest.lock */,
 				E9A832BE19F95C320012FD16 /* Sources */,
 				E9A832BF19F95C320012FD16 /* Frameworks */,
 				E9A832C019F95C320012FD16 /* Resources */,
+				087152C256D55BA83476ED9B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,16 +230,53 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91A2C7D19F9829900745548 /* example.sec in Resources */,
+				E91A2C7C19F9829900745548 /* example.pub in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		087152C256D55BA83476ED9B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TPCocoaGPGTests/Pods-TPCocoaGPGTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B61AE74028C8FE3F6110F0BD /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E9A832B319F95C320012FD16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91A2C7119F95CC000745548 /* TPGPGKey.m in Sources */,
+				E91A2C7919F973DA00745548 /* TPGPGOutputChunk.m in Sources */,
 				E9A832BD19F95C320012FD16 /* TPCocoaGPG.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91A2C7319F9644B00745548 /* TPCocoaGPGSpecs.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +396,7 @@
 		};
 		E9A832CF19F95C320012FD16 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 22D1831653A3DC45580A2212 /* Pods-TPCocoaGPGTests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -327,6 +415,7 @@
 		};
 		E9A832D019F95C320012FD16 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C81289A57E4C8E1C86D237D /* Pods-TPCocoaGPGTests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -358,6 +447,7 @@
 				E9A832CD19F95C320012FD16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E9A832CE19F95C320012FD16 /* Build configuration list for PBXNativeTarget "TPCocoaGPGTests" */ = {
 			isa = XCConfigurationList;
@@ -366,6 +456,7 @@
 				E9A832D019F95C320012FD16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
