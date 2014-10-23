@@ -32,4 +32,8 @@ NSString *const kTPCocoaGPGDateKey = @"date";
   [_data setObject:value forKey:key];
 }
 
+- (NSString*)keyId {
+  return [self getValue:kTPCocoaGPGKeyIdKey];
+}
+
 @end

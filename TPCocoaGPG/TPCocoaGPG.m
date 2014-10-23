@@ -105,8 +105,9 @@
   NSArray* args = @[@"--batch",
                     @"--passphrase-fd", @"0",
                     @"--no-use-agent",
-                    @"--local-user", [key getValue:kTPCocoaGPGKeyIdKey],
-                    @"-sa"];
+                    @"--local-user", key.keyId,
+                    @"--sign",
+                    @"--armor"];
   NSString* input = [NSString stringWithFormat:@"%@\nThis is a random string\n", passphrase];
   NSMutableArray* stderrChunks;
   [self execCommand:args withInput:input stderrChunks:&stderrChunks stdoutLines:nil andError:nil];
@@ -121,15 +122,66 @@
 #pragma mark Encryption
 
 - (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key {
-  return nil;
+  return [self encryptData:data withKey:key andPassphrase:nil];
+}
+
+- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase {
+  if (key == nil) {
+    return nil;
+  }
+  // FIXME: don't hardcode recipient to self.
+  NSArray* args = @[@"--encrypt",
+                    @"--recipient", key.keyId,
+                    @"--armor",
+                    @"--batch",
+                    @"--passphrase-fd", @"0",
+                    @"--no-use-agent",
+                    @"--local-user", key.keyId,
+                    @"--always-trust"];
+  NSString* dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  NSString* input;
+  if (passphrase != nil) {
+    input = [NSString stringWithFormat:@"%@\n%@\n", passphrase, dataString];
+  } else {
+    input = [NSString stringWithFormat:@"%@\n", dataString];
+  }
+  NSMutableArray* stdoutLines;
+  [self execCommand:args withInput:input stderrChunks:nil stdoutLines:&stdoutLines andError:nil];
+  if (stdoutLines == nil) {
+    return nil;
+  }
+  return [[stdoutLines componentsJoinedByString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase {
-  return nil;
+  if (key == nil) {
+    return nil;
+  }
+  // FIXME: don't hardcode recipient to self.
+  NSArray* args = @[@"--decrypt",
+                    @"--armor",
+                    @"--batch",
+                    @"--passphrase-fd", @"0",
+                    @"--no-use-agent",
+                    @"--local-user", key.keyId,
+                    @"--always-trust"];
+  NSString* dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  NSString* input;
+  if (passphrase != nil) {
+    input = [NSString stringWithFormat:@"%@\n%@\n", passphrase, dataString];
+  } else {
+    input = [NSString stringWithFormat:@"%@\n", dataString];
+  }
+  NSMutableArray* stdoutLines;
+  [self execCommand:args withInput:input stderrChunks:nil stdoutLines:&stdoutLines andError:nil];
+  if (stdoutLines == nil) {
+    return nil;
+  }
+  return [[stdoutLines componentsJoinedByString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key {
-  return nil;
+  return [self decryptData:data withKey:key andPassphrase:nil];
 }
 
 #pragma mark - Private helpers
@@ -220,6 +272,5 @@
     *stdoutLines = [NSMutableArray arrayWithArray:[stdoutString componentsSeparatedByString:@"\n"]];
   }
 }
-
 
 @end

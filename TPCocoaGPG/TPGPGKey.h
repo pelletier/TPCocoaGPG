@@ -30,4 +30,7 @@ extern NSString *const kTPCocoaGPGDateKey;
 // Stores a |value| at |key|.
 - (void)setValue:(NSString*)value forKey:(NSString*)key;
 
+// Shortcut to graph the key id.
+- (NSString*)keyId;
+
 @end

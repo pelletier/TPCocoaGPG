@@ -30,6 +30,7 @@
 - (TPGPGKey*)getSecretKeyWithFingerprint:(NSString*)fingerprint;
 
 // Encrypts some |data| with the given |key|.
+- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase;
 - (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key;
 
 // Decrypts some |data| with the given |key| and uses |passphrase| to unlock the key (if needed).

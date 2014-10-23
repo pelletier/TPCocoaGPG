@@ -17,6 +17,8 @@ SpecBegin(TPCocoaGPG)
 describe(@"TPCocoaGPG", ^{
   __block TPCocoaGPG* gpg;
   __block NSURL* _tmpHome;
+  __block NSString* pubkeyContent;
+  __block NSString* privkeyContent;
   
   beforeEach(^{
     // Create a temporary home directory for each test
@@ -26,6 +28,16 @@ describe(@"TPCocoaGPG", ^{
     
     // Create a TPCocoaGPG instance;
     gpg = [[TPCocoaGPG alloc] initGpgPath:@"/usr/local/bin/gpg" andHome:[_tmpHome path]];
+    
+    // Prepare some keys
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"example" ofType:@"pub"];
+    NSError* err;
+    pubkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    path = [bundle pathForResource:@"example" ofType:@"sec"];
+    privkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    expect(pubkeyContent).toNot.beNil();
+    expect(privkeyContent).toNot.beNil();
   });
   
   it(@"can be created", ^{
@@ -33,16 +45,6 @@ describe(@"TPCocoaGPG", ^{
   });
   
   it(@"can import keys and list them", ^{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *path = [bundle pathForResource:@"example" ofType:@"pub"];
-    NSError* err;
-    NSString* pubkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
-    path = [bundle pathForResource:@"example" ofType:@"sec"];
-    NSString* privkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-    expect(pubkeyContent).toNot.beNil();
-    expect(privkeyContent).toNot.beNil();
-    
     [gpg importIntoKeyring:pubkeyContent];
     
     NSArray* pubKeys = [gpg listPublicKeys];
@@ -67,16 +69,6 @@ describe(@"TPCocoaGPG", ^{
   });
   
   it(@"can retrieve a key by fingerprint", ^{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *path = [bundle pathForResource:@"example" ofType:@"pub"];
-    NSError* err;
-    NSString* pubkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
-    path = [bundle pathForResource:@"example" ofType:@"sec"];
-    NSString* privkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-    expect(pubkeyContent).toNot.beNil();
-    expect(privkeyContent).toNot.beNil();
-    
     [gpg importIntoKeyring:pubkeyContent];
     [gpg importIntoKeyring:privkeyContent];
     
@@ -96,22 +88,24 @@ describe(@"TPCocoaGPG", ^{
   });
   
   it(@"can check passphrases", ^{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *path = [bundle pathForResource:@"example" ofType:@"pub"];
-    NSError* err;
-    NSString* pubkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
-    path = [bundle pathForResource:@"example" ofType:@"sec"];
-    NSString* privkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-    expect(pubkeyContent).toNot.beNil();
-    expect(privkeyContent).toNot.beNil();
-    
     [gpg importIntoKeyring:pubkeyContent];
     [gpg importIntoKeyring:privkeyContent];
     
     TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
     expect([gpg checkIfPassphrase:@"HELLOWORLD" unlocksKey:key]).to.beFalsy();
     expect([gpg checkIfPassphrase:@"MyActualPasskey" unlocksKey:key]).to.beTruthy();
+  });
+  
+  it(@"can encrypt data", ^{
+    [gpg importIntoKeyring:pubkeyContent];
+    [gpg importIntoKeyring:privkeyContent];
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
+    NSString* message = @"My great message to secure";
+    NSData* someData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* encryptedData = [gpg encryptData:someData withKey:key andPassphrase:@"MyActualPasskey"];
+    expect(encryptedData).notTo.to.beNil;
+    NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
+    expect([decryptedData isEqualToData:someData]).to.beTruthy;
   });
   
   afterEach(^{
