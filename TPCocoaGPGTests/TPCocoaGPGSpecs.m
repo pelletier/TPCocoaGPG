@@ -93,7 +93,25 @@ describe(@"TPCocoaGPG", ^{
     
     key = [gpg getSecretKeyWithFingerprint:@"BAD"];
     expect(key).beNil();
-
+  });
+  
+  it(@"can check passphrases", ^{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"example" ofType:@"pub"];
+    NSError* err;
+    NSString* pubkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    path = [bundle pathForResource:@"example" ofType:@"sec"];
+    NSString* privkeyContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    
+    expect(pubkeyContent).toNot.beNil();
+    expect(privkeyContent).toNot.beNil();
+    
+    [gpg importIntoKeyring:pubkeyContent];
+    [gpg importIntoKeyring:privkeyContent];
+    
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
+    expect([gpg checkIfPassphrase:@"HELLOWORLD" unlocksKey:key]).to.beFalsy();
+    expect([gpg checkIfPassphrase:@"MyActualPasskey" unlocksKey:key]).to.beTruthy();
   });
   
   afterEach(^{

@@ -99,6 +99,22 @@
 }
 
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key {
+  if (key == nil) {
+    return NO;
+  }
+  NSArray* args = @[@"--batch",
+                    @"--passphrase-fd", @"0",
+                    @"--no-use-agent",
+                    @"--local-user", [key getValue:kTPCocoaGPGKeyIdKey],
+                    @"-sa"];
+  NSString* input = [NSString stringWithFormat:@"%@\nThis is a random string\n", passphrase];
+  NSMutableArray* stderrChunks;
+  [self execCommand:args withInput:input stderrChunks:&stderrChunks stdoutLines:nil andError:nil];
+  for (TPGPGOutputChunk* chunk in stderrChunks) {
+    if ([chunk.key isEqualToString:@"GOOD_PASSPHRASE"]) {
+      return YES;
+    }
+  }
   return NO;
 }
 
