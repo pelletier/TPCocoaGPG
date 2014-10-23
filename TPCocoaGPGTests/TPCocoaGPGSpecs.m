@@ -50,6 +50,9 @@ describe(@"TPCocoaGPG", ^{
     
     expect(pubKeys.count).to.equal(1);
     expect(privKeys.count).to.equal(0);
+    
+    TPGPGKey* key = [pubKeys firstObject];
+    expect([key getValue:kTPCocoaGPGKeyIdKey]).to.equal(@"F2479DE6CFB6B695");
   });
   
   afterEach(^{

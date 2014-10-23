@@ -17,4 +17,19 @@ NSString *const kTPCocoaGPGDateKey = @"date";
 
 @implementation TPGPGKey
 
+- (id)init {
+  if ((self = [super init])) {
+    _data = [[NSMutableDictionary alloc] init];
+  }
+  return self;
+}
+
+- (NSString*)getValue:(NSString*)key {
+  return [_data objectForKey:key];
+}
+
+- (void)setValue:(NSString*)value forKey:(NSString*)key {
+  [_data setObject:value forKey:key];
+}
+
 @end

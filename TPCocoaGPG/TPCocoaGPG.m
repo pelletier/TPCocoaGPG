@@ -66,8 +66,8 @@
 
     // Generate the new key object
     TPGPGKey* key = [[TPGPGKey alloc] init];
-    for (unsigned i; i < parsedFields.count; ++i) {
-      [key setObject:[parsedFields objectAtIndex:i] forKey:[parsedFields objectAtIndex:i]];
+    for (unsigned i = 0; i < parsedFields.count; ++i) {
+      [key setValue:[fields objectAtIndex:i] forKey:[parsedFields objectAtIndex:i]];
     }
     [keys addObject:key];
   }
@@ -108,7 +108,6 @@
        stderrChunks:(NSMutableArray**)stderrChunks
         stdoutLines:(NSMutableArray**)stdoutLines
            andError:(NSError**)error {
-  NSLog(@"RUNNING IN %@", _home);
   NSMutableArray* args = [NSMutableArray arrayWithArray:@[@"--verbose", @"--status-fd", @"2", @"--no-tty", @"--homedir", _home]];
   [args addObjectsFromArray:commands];
   
@@ -143,9 +142,8 @@
   [task launch];
   
   // Send data to stdin if necessary.
-  if (stdinHandle != nil) {
+  if (input != nil) {
     [stdinHandle writeData:[input dataUsingEncoding: NSASCIIStringEncoding]];
-    //[stdinHandle writeData:[[NSString stringWithFormat:@"%c", EOF] dataUsingEncoding:NSUTF8StringEncoding]];
     [stdinHandle closeFile];
   }
   
@@ -161,10 +159,7 @@
   }
   
   // Wait for clean exit.
-  NSLog(@"BEFORE");
   [task waitUntilExit];
-  NSLog(@"AFTER");
-  
   
   if (stderrChunks != nil) {
     *stderrChunks = [[NSMutableArray alloc] init];
@@ -172,7 +167,6 @@
     // Parse stderr
     // FIXME: this is highly inefficient
     NSString* stderrString = [[NSString alloc] initWithData:stderrData encoding:NSUTF8StringEncoding];
-    NSLog(@"STDERR: %@", stderrString);
     for (NSString* line in [stderrString componentsSeparatedByString:@"\n"]) {
       NSMutableArray* toks = [NSMutableArray arrayWithArray:[line componentsSeparatedByString:@" "]];
       // We only care about GNUPG states lines.
@@ -192,7 +186,6 @@
   // Parse stdout
   if (stdoutLines != nil) {
     NSString* stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
-    NSLog(@"STDOUT: %@", stdoutString);
     *stdoutLines = [NSMutableArray arrayWithArray:[stdoutString componentsSeparatedByString:@"\n"]];
   }
 }
