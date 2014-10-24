@@ -10,7 +10,7 @@ not try to be complete, nor to get rid of the GPG binary.
 
 The recommended way to install this library is CocoaPods:
 
-pod 'TPCocoaGPG', :git => 'https://github.com/pelletier/TPCocoaGPG.git', :branch => :master
+    pod 'TPCocoaGPG', :git => 'https://github.com/pelletier/TPCocoaGPG.git', :branch => :master
 
 
 ## Usage
