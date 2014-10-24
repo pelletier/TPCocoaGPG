@@ -95,7 +95,9 @@
 }
 
 - (void)importIntoKeyring:(NSString*)key {
-  [self execCommand:@[@"--import"] withInput:key stderrChunks:nil stdoutLines:nil andError:nil];
+  if (key != nil && key.length > 0) {
+    [self execCommand:@[@"--import"] withInput:key stderrChunks:nil stdoutLines:nil andError:nil];
+  }
 }
 
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key {
