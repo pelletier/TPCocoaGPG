@@ -92,8 +92,8 @@ describe(@"TPCocoaGPG", ^{
     [gpg importIntoKeyring:privkeyContent];
     
     TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
-    expect([gpg checkIfPassphrase:@"HELLOWORLD" unlocksKey:key]).to.beFalsy();
-    expect([gpg checkIfPassphrase:@"MyActualPasskey" unlocksKey:key]).to.beTruthy();
+    expect([gpg checkIfPassphrase:@"HELLOWORLD" unlocksKey:key]).to.equal(NO);
+    expect([gpg checkIfPassphrase:@"MyActualPasskey" unlocksKey:key]).to.equal(YES);
   });
   
   it(@"can encrypt data", ^{
@@ -105,7 +105,20 @@ describe(@"TPCocoaGPG", ^{
     NSData* encryptedData = [gpg encryptData:someData withKey:key andPassphrase:@"MyActualPasskey"];
     expect(encryptedData).notTo.to.beNil;
     NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
-    expect([decryptedData isEqualToData:someData]).to.beTruthy;
+    expect([decryptedData isEqualToData:someData]).to.equal(YES);
+  });
+  
+  it(@"can encrypt and decrypt binary data", ^{
+    [gpg importIntoKeyring:pubkeyContent];
+    [gpg importIntoKeyring:privkeyContent];
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"logo" ofType:@"png"];
+    NSData* secretFile = [NSData dataWithContentsOfFile:path];
+    NSData* encryptedData = [gpg encryptData:secretFile withKey:key andPassphrase:@"MyActualPasskey"];
+    expect(encryptedData).notTo.to.beNil;
+    NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
+    expect([decryptedData isEqualToData:secretFile]).to.equal(YES);
   });
   
   afterEach(^{

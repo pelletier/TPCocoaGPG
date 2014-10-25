@@ -15,6 +15,7 @@
 		E91A2C7919F973DA00745548 /* TPGPGOutputChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = E91A2C7719F973DA00745548 /* TPGPGOutputChunk.m */; };
 		E91A2C7C19F9829900745548 /* example.pub in Resources */ = {isa = PBXBuildFile; fileRef = E91A2C7A19F9829900745548 /* example.pub */; };
 		E91A2C7D19F9829900745548 /* example.sec in Resources */ = {isa = PBXBuildFile; fileRef = E91A2C7B19F9829900745548 /* example.sec */; };
+		E94AF4F619FBEF98004AEE4F /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E94AF4F519FBEF98004AEE4F /* logo.png */; };
 		E9A832BB19F95C320012FD16 /* TPCocoaGPG.h in Headers */ = {isa = PBXBuildFile; fileRef = E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */; };
 		E9A832BD19F95C320012FD16 /* TPCocoaGPG.m in Sources */ = {isa = PBXBuildFile; fileRef = E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */; };
 		E9A832C319F95C320012FD16 /* libTPCocoaGPG.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */; };
@@ -41,6 +42,7 @@
 		E91A2C7719F973DA00745548 /* TPGPGOutputChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPGPGOutputChunk.m; sourceTree = "<group>"; };
 		E91A2C7A19F9829900745548 /* example.pub */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.pub; sourceTree = "<group>"; };
 		E91A2C7B19F9829900745548 /* example.sec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.sec; sourceTree = "<group>"; };
+		E94AF4F519FBEF98004AEE4F /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		E9A832B719F95C320012FD16 /* libTPCocoaGPG.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libTPCocoaGPG.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9A832BA19F95C320012FD16 /* TPCocoaGPG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPCocoaGPG.h; sourceTree = "<group>"; };
 		E9A832BC19F95C320012FD16 /* TPCocoaGPG.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TPCocoaGPG.m; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		E9A832C719F95C320012FD16 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E94AF4F519FBEF98004AEE4F /* logo.png */,
 				E91A2C7A19F9829900745548 /* example.pub */,
 				E91A2C7B19F9829900745548 /* example.sec */,
 				E9A832C819F95C320012FD16 /* Info.plist */,
@@ -232,6 +235,7 @@
 			files = (
 				E91A2C7D19F9829900745548 /* example.sec in Resources */,
 				E91A2C7C19F9829900745548 /* example.pub in Resources */,
+				E94AF4F619FBEF98004AEE4F /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
