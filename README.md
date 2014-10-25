@@ -1,5 +1,9 @@
 # TPCocoaGPG
 
+[![Pod Version](http://img.shields.io/cocoapods/v/TPCocoaGPG.svg?style=flat)](http://cocoadocs.org/docsets/TPCocoaGPG)
+[![Pod Platform](http://img.shields.io/cocoapods/p/TPCocoaGPG.svg?style=flat)](http://cocoadocs.org/docsets/TPCocoaGPG)
+[![License](http://img.shields.io/cocoapods/l/TPCocoaGPG.svg?style=flat)](http://cocoadocs.org/docsets/TPCocoaGPG)
+
 Objective-C wrapper around GPG.
 
 This library aims to be a simple, easy to use library to deal with GPG. It does
