@@ -51,7 +51,8 @@
 }
 
 - (NSArray*)listKeysForSecretKeys:(BOOL)secret andFilter:(NSString*)fingerprint {
-  NSMutableArray* stdoutLines;
+  NSArray* stdoutLines;
+  NSData* stdoutData;
   NSError* error;
   
   // Prepare the command to run
@@ -64,8 +65,11 @@
   if (fingerprint != nil) {
     [args addObject:fingerprint];
   }
-  [self execCommand:args withInput:nil stderrChunks:nil stdoutLines:&stdoutLines andError:&error];
-  
+  [self execCommand:args withInput:nil stderrChunks:nil stdoutData:&stdoutData andError:&error];
+  // Parse stdout
+  NSString* stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
+  stdoutLines = [stdoutString componentsSeparatedByString:@"\n"];
+
   // Fields in order of appearence for each key line in stdout.
   NSArray* parsedFields = @[kTPCocoaGPGTypeKey, kTPCocoaGPGTrustKey, kTPCocoaGPGLengthKey, kTPCocoaGPGAlgoKey, kTPCocoaGPGKeyIdKey, kTPCocoaGPGDateKey];
   NSMutableArray* keys = [[NSMutableArray alloc] init];
@@ -96,7 +100,7 @@
 
 - (void)importIntoKeyring:(NSString*)key {
   if (key != nil && key.length > 0) {
-    [self execCommand:@[@"--import"] withInput:key stderrChunks:nil stdoutLines:nil andError:nil];
+    [self execCommand:@[@"--import"] withInput:[key dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:nil stdoutData:nil andError:nil];
   }
 }
 
@@ -112,7 +116,7 @@
                     @"--armor"];
   NSString* input = [NSString stringWithFormat:@"%@\nThis is a random string\n", passphrase];
   NSMutableArray* stderrChunks;
-  [self execCommand:args withInput:input stderrChunks:&stderrChunks stdoutLines:nil andError:nil];
+  [self execCommand:args withInput:[input dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:&stderrChunks stdoutData:nil andError:nil];
   for (TPGPGOutputChunk* chunk in stderrChunks) {
     if ([chunk.key isEqualToString:@"GOOD_PASSPHRASE"]) {
       return YES;
@@ -140,19 +144,10 @@
                     @"--no-use-agent",
                     @"--local-user", key.keyId,
                     @"--always-trust"];
-  NSString* dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-  NSString* input;
-  if (passphrase != nil) {
-    input = [NSString stringWithFormat:@"%@\n%@\n", passphrase, dataString];
-  } else {
-    input = [NSString stringWithFormat:@"%@\n", dataString];
-  }
-  NSMutableArray* stdoutLines;
-  [self execCommand:args withInput:input stderrChunks:nil stdoutLines:&stdoutLines andError:nil];
-  if (stdoutLines == nil) {
-    return nil;
-  }
-  return [[stdoutLines componentsJoinedByString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding];
+  NSData* input = [self prependPassphrase:passphrase toData:data];
+  NSData* stdoutData;
+  [self execCommand:args withInput:input stderrChunks:nil stdoutData:&stdoutData andError:nil];
+  return stdoutData;
 }
 
 - (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase {
@@ -167,19 +162,10 @@
                     @"--no-use-agent",
                     @"--local-user", key.keyId,
                     @"--always-trust"];
-  NSString* dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-  NSString* input;
-  if (passphrase != nil) {
-    input = [NSString stringWithFormat:@"%@\n%@\n", passphrase, dataString];
-  } else {
-    input = [NSString stringWithFormat:@"%@\n", dataString];
-  }
-  NSMutableArray* stdoutLines;
-  [self execCommand:args withInput:input stderrChunks:nil stdoutLines:&stdoutLines andError:nil];
-  if (stdoutLines == nil) {
-    return nil;
-  }
-  return [[stdoutLines componentsJoinedByString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding];
+  NSData* input = [self prependPassphrase:passphrase toData:data];
+  NSData* stdoutData;
+  [self execCommand:args withInput:input stderrChunks:nil stdoutData:&stdoutData andError:nil];
+  return stdoutData;
 }
 
 - (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key {
@@ -188,10 +174,19 @@
 
 #pragma mark - Private helpers
 
+- (NSData*)prependPassphrase:(NSString*)passphrase toData:(NSData*)data {
+  if (passphrase == nil) {
+    return data;
+  }
+  NSMutableData* buffer = [NSMutableData dataWithData:[[NSString stringWithFormat:@"%@\n", passphrase] dataUsingEncoding:NSUTF8StringEncoding]];
+  [buffer appendData:data];
+  return buffer;
+}
+
 - (void)execCommand:(NSArray*)commands
-          withInput:(NSString*)input
+          withInput:(NSData*)input
        stderrChunks:(NSMutableArray**)stderrChunks
-        stdoutLines:(NSMutableArray**)stdoutLines
+         stdoutData:(NSData**)stdoutData
            andError:(NSError**)error {
   NSMutableArray* args = [NSMutableArray arrayWithArray:@[@"--verbose", @"--status-fd", @"2", @"--no-tty", @"--homedir", _home]];
   [args addObjectsFromArray:commands];
@@ -211,7 +206,7 @@
   
   // Prepare stdout
   NSPipe* stdoutPipe;
-  if (stdoutLines != nil) {
+  if (stdoutData != nil) {
     stdoutPipe = [NSPipe pipe];
     [task setStandardOutput:stdoutPipe];
   }
@@ -228,14 +223,13 @@
   
   // Send data to stdin if necessary.
   if (input != nil) {
-    [stdinHandle writeData:[input dataUsingEncoding: NSASCIIStringEncoding]];
+    [stdinHandle writeData:input];
     [stdinHandle closeFile];
   }
   
   // Grab the standard output and error
-  NSData* stdoutData;
-  if (stdoutLines != nil) {
-    stdoutData = [[stdoutPipe fileHandleForReading] readDataToEndOfFile];
+  if (stdoutData != nil) {
+    *stdoutData = [NSData dataWithData:[[stdoutPipe fileHandleForReading] readDataToEndOfFile]];
   }
 
   NSData* stderrData;
@@ -266,12 +260,6 @@
       
       [*stderrChunks addObject:[TPGPGOutputChunk makeWithKey:[toks objectAtIndex:1] andText:text]];
     }
-  }
-  
-  // Parse stdout
-  if (stdoutLines != nil) {
-    NSString* stdoutString = [[NSString alloc] initWithData:stdoutData encoding:NSUTF8StringEncoding];
-    *stdoutLines = [NSMutableArray arrayWithArray:[stdoutString componentsSeparatedByString:@"\n"]];
   }
 }
 

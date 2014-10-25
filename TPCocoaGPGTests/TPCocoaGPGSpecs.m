@@ -96,6 +96,18 @@ describe(@"TPCocoaGPG", ^{
     expect([gpg checkIfPassphrase:@"MyActualPasskey" unlocksKey:key]).to.equal(YES);
   });
   
+  it(@"can decrypt data", ^{
+    [gpg importIntoKeyring:pubkeyContent];
+    [gpg importIntoKeyring:privkeyContent];
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"foo" ofType:@"crypt"];
+    NSData* secretFile = [NSData dataWithContentsOfFile:path];
+    NSData* decryptedData = [gpg decryptData:secretFile withKey:key andPassphrase:@"MyActualPasskey"];
+    NSString* plain = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    expect([plain isEqualToString:@"My great message to secure"]).to.equal(YES);
+  });
+  
   it(@"can encrypt data", ^{
     [gpg importIntoKeyring:pubkeyContent];
     [gpg importIntoKeyring:privkeyContent];
