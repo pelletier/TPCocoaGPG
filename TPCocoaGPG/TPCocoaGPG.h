@@ -9,39 +9,113 @@
 #import <Foundation/Foundation.h>
 #import "TPGPGKey.h"
 
-// Wrapper around the gpg binary to perform simple cryptography operations.
+/**
+ Wrapper around the gpg binary to perform simple cryptography operations.
+ */
 @interface TPCocoaGPG : NSObject {
  @private
   NSString* _home;
   NSString* _gpgPath;
 }
 
-// Initializes the wrapper and set up gpg to store files (e.g. keys, rings, etc.) in |home|.
-// |gpgPath| is the absolute path to the gpg binary to wrap.
+/**
+ Initializes the wrapper and set up gpg to store files (e.g. keys, rings, etc.) in `home`.
+ 
+ @param gpgPath The absolute path to the gpg binary.
+ @param home The absolute path for the local data storage.
+ @return The new instance
+ */
 - (id)initGpgPath:(NSString*)gpgPath andHome:(NSString*)home;
 
-// Returns an array of |TPGPGKey|s.
+
+/// ------------------------------------------------------------------------------------------------
+/// @name Managing keys
+/// ------------------------------------------------------------------------------------------------
+
+
+/**
+ Import a key into the keyring.
+ 
+ @param key String representation of the key to import.
+ */
+- (void)importIntoKeyring:(NSString*)key;
+
+/**
+ Lists the currently stored public keys.
+ 
+ @return An array of `TPGPGKey`.
+ */
 - (NSArray*)listPublicKeys;
+
+/**
+ Lists the currently stored private keys.
+ 
+ @return An array of `TPGPGKey`.
+ */
 - (NSArray*)listSecretKeys;
 
-// Returns the |TPGPGKey| associated to the given |fingerprint|.
-// Returns NULL if the key does not exist.
+/**
+ Grabs the public key associated with a given fingerprint.
+ 
+ @param fingerprint The fingerprint to look up.
+ @return An instance of `TPGPGKey` representing the key, or `nil` if it is not on the keyring.
+ */
 - (TPGPGKey*)getPublicKeyWithFingerprint:(NSString*)fingerprint;
+
+/**
+ Grabs the private key associated with a given fingerprint.
+ 
+ @param fingerprint The fingerprint to look up.
+ @return An instance of `TPGPGKey` representing the key, or `nil` if it is not on the keyring.
+ */
 - (TPGPGKey*)getSecretKeyWithFingerprint:(NSString*)fingerprint;
 
-// Encrypts some |data| with the given |key|.
-- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase;
-- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key;
-
-// Decrypts some |data| with the given |key| and uses |passphrase| to unlock the key (if needed).
-- (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase;
-- (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key;
-
-// Checks if |passphrase| unlocks the given |key|.
-// Internally, this method uses signing.
+/**
+ Checks if a given passphrase unlocks a given key.
+ 
+ @param passphrase Passphrase to try.
+ @param key Key to try to unlock.
+ @return YES if the passphrase is indeed correct for the key.
+ */
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key;
 
-// Import |key| into keyring.
-- (void)importIntoKeyring:(NSString*)key;
+
+/// ------------------------------------------------------------------------------------------------
+/// @name Encrypt and decrypt data
+/// ------------------------------------------------------------------------------------------------
+
+/**
+ Encrypt some data with an optional passphrase.
+ 
+ @param data Data to encrypt.
+ @param key Key to use to perform the encryption.
+ @param passphrase Optional passphrase to unlock the key.
+ @return The encrypted, armored data. Can be directly converted to an NSString if needed.
+ */
+- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase;
+
+/**
+ Encrypt some data without passphrase.
+ 
+ @see -encryptData:withKey:andPassphrase
+ */
+- (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key;
+
+/**
+ Decrypt some data with an optional passphrase.
+ 
+ @param data Data to decrypt.
+ @param key Key to use to perform the decryption.
+ @param passphrase Optional passphrase to unlock the key.
+ @return The decrypted data.
+ */
+- (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key andPassphrase:(NSString*)passphrase;
+
+/**
+ Decrypt some data without passphrase.
+ 
+ @see -edecyrptData:withKey:andPassphrase
+ */
+- (NSData*)decryptData:(NSData*)data withKey:(TPGPGKey*)key;
 
 @end

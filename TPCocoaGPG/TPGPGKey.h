@@ -15,22 +15,43 @@ extern NSString *const kTPCocoaGPGAlgoKey;
 extern NSString *const kTPCocoaGPGKeyIdKey;
 extern NSString *const kTPCocoaGPGDateKey;
 
-// Encapsulate a key (public or private).
+/**
+ Encapsulate a key (public or private).
+ 
+ This class is basically a wrapper around a dictionary. You should not need to access the internals
+ directly.
+ */
 @interface TPGPGKey : NSObject {
  @private
   NSMutableDictionary* _data;
 }
 
-// Initializes the object.
+/**
+ Initializes the object.
+ */
 - (id)init;
 
-// Retrieves a value stored at |key|.
+/**
+ Retrieves a value stored for a key.
+ 
+ @param key Key to lookup.
+ @return The associated value (possibly nil).
+ */
 - (NSString*)getValue:(NSString*)key;
 
-// Stores a |value| at |key|.
+/**
+ Store a value associated with a key.
+ 
+ @param value Value to store.
+ @param key Key to store it at.
+ */
 - (void)setValue:(NSString*)value forKey:(NSString*)key;
 
-// Shortcut to graph the key id.
+/**
+ Shortcut to grab the key id.
+ 
+ @return The key id (or fingerprint).
+ */
 - (NSString*)keyId;
 
 @end
