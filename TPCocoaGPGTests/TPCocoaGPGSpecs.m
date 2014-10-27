@@ -133,6 +133,19 @@ describe(@"TPCocoaGPG", ^{
     expect([decryptedData isEqualToData:secretFile]).to.equal(YES);
   });
   
+  it(@"can encrypt large binary data", ^{
+    [gpg importIntoKeyring:pubkeyContent];
+    [gpg importIntoKeyring:privkeyContent];
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"LargeEverest" ofType:@"jpg"];
+    NSData* secretFile = [NSData dataWithContentsOfFile:path];
+    NSData* encryptedData = [gpg encryptData:secretFile withKey:key andPassphrase:@"MyActualPasskey"];
+    expect(encryptedData).notTo.to.beNil;
+    NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
+    expect([decryptedData isEqualToData:secretFile]).to.equal(YES);
+  });
+  
   afterEach(^{
     // Remove the temporary directory
     [[NSFileManager defaultManager] removeItemAtPath:[_tmpHome absoluteString] error:nil];

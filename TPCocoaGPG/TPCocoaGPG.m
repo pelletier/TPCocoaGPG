@@ -188,64 +188,84 @@
        stderrChunks:(NSMutableArray**)stderrChunks
          stdoutData:(NSData**)stdoutData
            andError:(NSError**)error {
+  // Prepare boolean values as shortcuts for later.
+  BOOL grabStdout = (stdoutData != nil);
+  BOOL grabStderr = (stderrChunks != nil);
+  BOOL provideStdin = (input != nil);
+  
+  // Add necessary arguments to make GPG usable as a child process.
   NSMutableArray* args = [NSMutableArray arrayWithArray:@[@"--verbose", @"--status-fd", @"2", @"--no-tty", @"--homedir", _home]];
   [args addObjectsFromArray:commands];
-  
+
+  // Prepare the NSTask to run GPG as a child process.
   NSTask* task = [[NSTask alloc] init];
   [task setLaunchPath:_gpgPath];
   [task setArguments:args];
-
-  // Prepare stdin if necessary.
-  NSPipe* stdinPipe;
-  NSFileHandle* stdinHandle;
-  if (input != nil && input.length > 0) {
-    stdinPipe = [NSPipe pipe];
-    stdinHandle = [stdinPipe fileHandleForWriting];
-    [task setStandardInput:stdinPipe];
-  }
   
-  // Prepare stdout
-  NSPipe* stdoutPipe;
-  if (stdoutData != nil) {
-    stdoutPipe = [NSPipe pipe];
+  // Prepare pipe for stdout reading if needed.
+  NSFileHandle* stdoutFileHandle;
+  if (grabStdout) {
+    NSPipe* stdoutPipe = [NSPipe pipe];
     [task setStandardOutput:stdoutPipe];
+    stdoutFileHandle = [stdoutPipe fileHandleForReading];
   }
   
-  // Prepare stderr
-  NSPipe* stderrPipe;
-  if (stderrChunks != nil) {
-    stderrPipe = [NSPipe pipe];
+  // Prepare pipe for stderr reading if needed.
+  NSFileHandle* stderrFileHandle;
+  if (grabStderr) {
+    NSPipe* stderrPipe = [NSPipe pipe];
     [task setStandardError:stderrPipe];
+    stderrFileHandle = [stderrPipe fileHandleForReading];
   }
-
-  // Run the task
+  
+  // Prepare pipe for stdin writing if needed.
+  NSFileHandle* stdinFileHandle;
+  if (provideStdin) {
+    NSPipe* stdinPipe = [NSPipe pipe];
+    [task setStandardInput:stdinPipe];
+    stdinFileHandle = [stdinPipe fileHandleForWriting];
+  }
+  
+  // Start child process and continue.
   [task launch];
   
-  // Send data to stdin if necessary.
-  if (input != nil) {
-    [stdinHandle writeData:input];
-    [stdinHandle closeFile];
+  // Create a dispatch group to easily send async tasks (read stderr / write stdin) and wait for
+  // them at the end.
+  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  dispatch_group_t group = dispatch_group_create();
+
+  // If required, launch an async task to write to the stdin pipe.
+  if (provideStdin) {
+    dispatch_group_async(group, queue, ^{
+      [stdinFileHandle writeData:input];
+      [stdinFileHandle closeFile];
+    });
   }
   
-  // Grab the standard output and error
-  if (stdoutData != nil) {
-    *stdoutData = [NSData dataWithData:[[stdoutPipe fileHandleForReading] readDataToEndOfFile]];
+  // If required, launch an async task to read the stderr pipe.
+  __block NSData* rawStderrData;
+  if (grabStderr) {
+    dispatch_group_async(group, queue, ^{
+      rawStderrData = [stderrFileHandle readDataToEndOfFile];
+    });
   }
 
-  NSData* stderrData;
-  if (stderrChunks != nil) {
-    stderrData = [[stderrPipe fileHandleForReading] readDataToEndOfFile];
+  // If required, use the current thread to read the stdout pipe.
+  if (grabStdout) {
+    *stdoutData = [stdoutFileHandle readDataToEndOfFile];
   }
   
-  // Wait for clean exit.
+  // Wait for possible async tasks to run.
+  dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+  // Ensure the task has really finished.
   [task waitUntilExit];
-  
-  if (stderrChunks != nil) {
+
+  if (grabStderr) {
     *stderrChunks = [[NSMutableArray alloc] init];
     
     // Parse stderr
     // FIXME: this is highly inefficient
-    NSString* stderrString = [[NSString alloc] initWithData:stderrData encoding:NSUTF8StringEncoding];
+    NSString* stderrString = [[NSString alloc] initWithData:rawStderrData encoding:NSUTF8StringEncoding];
     for (NSString* line in [stderrString componentsSeparatedByString:@"\n"]) {
       NSMutableArray* toks = [NSMutableArray arrayWithArray:[line componentsSeparatedByString:@" "]];
       // We only care about GNUPG states lines.
