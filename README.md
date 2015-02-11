@@ -70,6 +70,18 @@ BOOL unlocks = [gpg checkIfPassphrase:@"pass" unlocksKey:key];
 ```
 
 
+### Generate keys pair
+
+
+```objc
+NSString* fingerprint = [gpg generateKeysWithLength:length
+                                              email:@"test@example.com"
+                                               name:@"example"
+                                            comment:@"example"
+                                      andPassphrase:@"qweqwe"];
+```
+
+
 ## Development
 
 Install development dependencies: `pod install`.
