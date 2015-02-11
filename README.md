@@ -95,6 +95,18 @@ TPGPGKey* key = [gpg getPublicKeyWithFingerprint:fingerprint];
 NSData* data = [gpg exportKey:key];
 ```
 
+### Change passphrase
+
+```objc
+NSString* fingerprint = [gpg generateKeysWithLength:length
+                                              email:@"test@example.com"
+                                               name:@"example"
+                                            comment:@"example"
+                                      andPassphrase:@"qweqwe"];
+TPGPGKey* key = [gpg getSecretKeyWithFingerprint:fingerprint];
+[gpg changePassphraseFor:key withOldPassphrase:@"qweqwe" toNewPassphrase:@"foobar"];
+```
+
 ## Development
 
 Install development dependencies: `pod install`.
