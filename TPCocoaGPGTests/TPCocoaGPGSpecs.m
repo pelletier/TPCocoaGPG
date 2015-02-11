@@ -183,6 +183,19 @@ describe(@"TPCocoaGPG", ^{
     expect([string hasSuffix:@"-----END PGP PUBLIC KEY BLOCK-----"]).to.equal(YES);
   });
   
+  it(@"can change the passphrase of a key", ^{
+    NSString* fingerprint = [gpg generateKeysWithLength:2048 email:@"test@example.com" name:@"example" comment:@"example" andPassphrase:@"oldold"];
+    expect(fingerprint).notTo.beNil;
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:fingerprint];
+    expect(key).notTo.beNil;
+    expect([gpg checkIfPassphrase:@"oldold" unlocksKey:key]).to.equal(YES);
+    expect([gpg checkIfPassphrase:@"newnew" unlocksKey:key]).to.equal(NO);
+    expect([gpg changePassphraseFor:key withOldPassphrase:@"badbad" toNewPassphrase:@"foo"]).to.equal(NO);
+    expect([gpg changePassphraseFor:key withOldPassphrase:@"oldold" toNewPassphrase:@"newnew"]).to.equal(YES);
+    expect([gpg checkIfPassphrase:@"oldold" unlocksKey:key]).to.equal(NO);
+    expect([gpg checkIfPassphrase:@"newnew" unlocksKey:key]).to.equal(YES);
+  });
+  
   afterEach(^{
     // Remove the temporary directory
     [[NSFileManager defaultManager] removeItemAtPath:[_tmpHome absoluteString] error:nil];

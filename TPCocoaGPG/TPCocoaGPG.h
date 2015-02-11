@@ -103,6 +103,19 @@
 */
 - (NSData*)exportKey:(TPGPGKey*)key;
 
+/**
+ Change the passphrase protecting a key.
+ 
+ @param key The key to modify
+ @param oldpassphrase The current passphrase of the key
+ @param newpassphrase The new passphrase to use
+ @return YES if the key has successfully been updated.
+*/
+- (BOOL)changePassphraseFor:(TPGPGKey*)key
+          withOldPassphrase:(NSString*)oldpassphrase
+            toNewPassphrase:(NSString*)newpassphrase;
+
+
 /// ------------------------------------------------------------------------------------------------
 /// @name Encrypt and decrypt data
 /// ------------------------------------------------------------------------------------------------

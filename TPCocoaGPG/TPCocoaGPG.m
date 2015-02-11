@@ -164,7 +164,6 @@
   return fingerprint;
 }
 
-
 - (NSData*)exportKey:(TPGPGKey*)key {
   if (!key) {
     return nil;
@@ -178,6 +177,23 @@
   NSMutableData* data;
   [self execCommand:args withInput:nil stderrChunks:nil stdoutData:&data andError:nil];
   return data;
+}
+
+- (BOOL)changePassphraseFor:(TPGPGKey*)key
+          withOldPassphrase:(NSString*)oldpassphrase
+            toNewPassphrase:(NSString*)newpassphrase {
+  NSArray* args = @[@"--command-fd", @"0",
+                    @"--passphrase-repeat", @"0",
+                    @"--edit-key", [key getValue:kTPCocoaGPGKeyIdKey]];
+  NSString* input = [NSString stringWithFormat:@"passwd\n%@\n%@\nsave\n", oldpassphrase, newpassphrase];
+  NSMutableArray* chunks;
+  [self execCommand:args withInput:[input dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:&chunks stdoutData:nil andError:nil];
+  for (TPGPGOutputChunk* chunk in chunks) {
+    if ([chunk.key isEqualToString:@"BAD_PASSPHRASE"]) {
+      return NO;
+    }
+  }
+  return YES;
 }
 
 #pragma mark Encryption
