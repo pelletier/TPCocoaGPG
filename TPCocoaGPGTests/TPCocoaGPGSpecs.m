@@ -155,6 +155,34 @@ describe(@"TPCocoaGPG", ^{
     expect([key getValue:kTPCocoaGPGLengthKey]).to.equal([NSString stringWithFormat:@"%d", length]);
   });
   
+  it(@"can export a private key", ^{
+    NSString* fingerprint = [gpg generateKeysWithLength:2048 email:@"test@example.com" name:@"example" comment:@"example" andPassphrase:@"qweqwe"];
+    expect(fingerprint).notTo.beNil;
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:fingerprint];
+    expect(key).notTo.beNil;
+    NSData* data = [gpg exportKey:key];
+    expect(data).notTo.beNil;
+    NSString* string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    expect(string.length).notTo.beLessThanOrEqualTo(0);
+    expect([string hasPrefix:@"-----BEGIN PGP PRIVATE KEY BLOCK-----"]).to.equal(YES);
+    expect([string hasSuffix:@"-----END PGP PRIVATE KEY BLOCK-----"]).to.equal(YES);
+  });
+  
+  it(@"can export a public key", ^{
+    NSString* fingerprint = [gpg generateKeysWithLength:2048 email:@"test@example.com" name:@"example" comment:@"example" andPassphrase:@"qweqwe"];
+    expect(fingerprint).notTo.beNil;
+    TPGPGKey* key = [gpg getPublicKeyWithFingerprint:fingerprint];
+    expect(key).notTo.beNil;
+    NSData* data = [gpg exportKey:key];
+    expect(data).notTo.beNil;
+    NSString* string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    expect(string.length).notTo.beLessThanOrEqualTo(0);
+    expect([string hasPrefix:@"-----BEGIN PGP PUBLIC KEY BLOCK-----"]).to.equal(YES);
+    expect([string hasSuffix:@"-----END PGP PUBLIC KEY BLOCK-----"]).to.equal(YES);
+  });
+  
   afterEach(^{
     // Remove the temporary directory
     [[NSFileManager defaultManager] removeItemAtPath:[_tmpHome absoluteString] error:nil];

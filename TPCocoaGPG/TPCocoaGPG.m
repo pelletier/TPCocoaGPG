@@ -164,6 +164,22 @@
   return fingerprint;
 }
 
+
+- (NSData*)exportKey:(TPGPGKey*)key {
+  if (!key) {
+    return nil;
+  }
+  NSArray* args;
+  if ([[key getValue:kTPCocoaGPGTypeKey] isEqualToString:@"sec"]) {
+    args = @[@"--export-secret-key", @"-a", [key getValue:kTPCocoaGPGKeyIdKey]];
+  } else {
+    args = @[@"--export", @"-a", [key getValue:kTPCocoaGPGKeyIdKey]];
+  }
+  NSMutableData* data;
+  [self execCommand:args withInput:nil stderrChunks:nil stdoutData:&data andError:nil];
+  return data;
+}
+
 #pragma mark Encryption
 
 - (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key {

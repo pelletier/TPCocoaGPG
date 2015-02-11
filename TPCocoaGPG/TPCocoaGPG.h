@@ -95,6 +95,13 @@
                             comment:(NSString*)comment
                       andPassphrase:(NSString*)passphrase;
 
+/**
+ Export the armored, ascii representation of a given key.
+
+ @param key Key to export
+ @return The textual output or nil if it failed to export.
+*/
+- (NSData*)exportKey:(TPGPGKey*)key;
 
 /// ------------------------------------------------------------------------------------------------
 /// @name Encrypt and decrypt data

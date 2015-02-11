@@ -72,7 +72,6 @@ BOOL unlocks = [gpg checkIfPassphrase:@"pass" unlocksKey:key];
 
 ### Generate keys pair
 
-
 ```objc
 NSString* fingerprint = [gpg generateKeysWithLength:length
                                               email:@"test@example.com"
@@ -81,6 +80,20 @@ NSString* fingerprint = [gpg generateKeysWithLength:length
                                       andPassphrase:@"qweqwe"];
 ```
 
+### Export a key
+
+Armored ASCII output.
+
+```objc
+NSString* fingerprint = [gpg generateKeysWithLength:length
+                                              email:@"test@example.com"
+                                               name:@"example"
+                                            comment:@"example"
+                                      andPassphrase:@"qweqwe"];
+// can be Public or Private
+TPGPGKey* key = [gpg getPublicKeyWithFingerprint:fingerprint];
+NSData* data = [gpg exportKey:key];
+```
 
 ## Development
 
