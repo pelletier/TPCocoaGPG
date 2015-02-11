@@ -79,6 +79,22 @@
  */
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key;
 
+/**
+ Generate a public / private keys pair protected by a passphrase.
+ 
+ @param length Length of the key in bits (1024 or 2048 only)
+ @param email Email of the key owner
+ @param name Name of the key owner
+ @param comment Comment attached to the key
+ @param passphrase Passphrase to protect the key.
+ @return Returns the fingerprint of the generated key (or nil if it failed).
+*/
+- (NSString*)generateKeysWithLength:(int)length
+                              email:(NSString*)email
+                               name:(NSString*)name
+                            comment:(NSString*)comment
+                      andPassphrase:(NSString*)passphrase;
+
 
 /// ------------------------------------------------------------------------------------------------
 /// @name Encrypt and decrypt data

@@ -125,6 +125,45 @@
   return NO;
 }
 
+- (NSString*)generateKeysWithLength:(int)length
+                              email:(NSString*)email
+                               name:(NSString*)name
+                            comment:(NSString*)comment
+                      andPassphrase:(NSString*)passphrase {
+  if (!(length == 1024 || length == 2048)) {
+    NSLog(@"TPCocoaGPG: bad key length for generation: %d", length);
+    return nil;
+  }
+  assert(email);
+  assert(name);
+  assert(comment);
+  assert(passphrase);
+  
+  NSDictionary* keyParams = @{@"Key-Length": [NSString stringWithFormat:@"%d", length],
+                              @"Name-Real": name,
+                              @"Name-Comment": comment,
+                              @"Name-Email": email,
+                              @"Expire-Date": @"0",
+                              @"Passphrase": passphrase};
+  NSMutableArray* inputLines = [NSMutableArray arrayWithObject:@"Key-Type: RSA"];
+  for (NSString* key in keyParams.allKeys) {
+    [inputLines addObject:[NSString stringWithFormat:@"%@: %@", key, keyParams[key]]];
+  }
+  [inputLines addObject:@"\%commit;"];
+  NSString* input = [inputLines componentsJoinedByString:@"\n"];
+  NSArray* args = @[@"--gen-key", @"--batch"];
+  NSMutableArray* stderrChunks;
+  [self execCommand:args withInput:[input dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:&stderrChunks stdoutData:nil andError:nil];
+  NSString* fingerprint = nil;
+  for (TPGPGOutputChunk* chunk in stderrChunks) {
+    if ([chunk.key isEqualToString:@"KEY_CREATED"]) {
+      fingerprint = [chunk.text componentsSeparatedByString:@" "][1];
+      break;
+    }
+  }
+  return fingerprint;
+}
+
 #pragma mark Encryption
 
 - (NSData*)encryptData:(NSData*)data withKey:(TPGPGKey*)key {

@@ -115,7 +115,7 @@ describe(@"TPCocoaGPG", ^{
     NSString* message = @"My great message to secure";
     NSData* someData = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSData* encryptedData = [gpg encryptData:someData withKey:key andPassphrase:@"MyActualPasskey"];
-    expect(encryptedData).notTo.to.beNil;
+    expect(encryptedData).notTo.beNil;
     NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
     expect([decryptedData isEqualToData:someData]).to.equal(YES);
   });
@@ -128,7 +128,7 @@ describe(@"TPCocoaGPG", ^{
     NSString *path = [bundle pathForResource:@"logo" ofType:@"png"];
     NSData* secretFile = [NSData dataWithContentsOfFile:path];
     NSData* encryptedData = [gpg encryptData:secretFile withKey:key andPassphrase:@"MyActualPasskey"];
-    expect(encryptedData).notTo.to.beNil;
+    expect(encryptedData).notTo.beNil;
     NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
     expect([decryptedData isEqualToData:secretFile]).to.equal(YES);
   });
@@ -141,9 +141,18 @@ describe(@"TPCocoaGPG", ^{
     NSString *path = [bundle pathForResource:@"LargeEverest" ofType:@"jpg"];
     NSData* secretFile = [NSData dataWithContentsOfFile:path];
     NSData* encryptedData = [gpg encryptData:secretFile withKey:key andPassphrase:@"MyActualPasskey"];
-    expect(encryptedData).notTo.to.beNil;
+    expect(encryptedData).notTo.beNil;
     NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
     expect([decryptedData isEqualToData:secretFile]).to.equal(YES);
+  });
+  
+  it(@"can create keys", ^{
+    int length = 2048;
+    NSString* fingerprint = [gpg generateKeysWithLength:length email:@"test@example.com" name:@"example" comment:@"example" andPassphrase:@"qweqwe"];
+    expect(fingerprint).notTo.beNil;
+    TPGPGKey* key = [gpg getSecretKeyWithFingerprint:fingerprint];
+    expect(key).notTo.beNil;
+    expect([key getValue:kTPCocoaGPGLengthKey]).to.equal([NSString stringWithFormat:@"%d", length]);
   });
   
   afterEach(^{
