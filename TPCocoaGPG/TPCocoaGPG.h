@@ -37,8 +37,9 @@
  Import a key into the keyring.
  
  @param key String representation of the key to import.
+ @return th fingerprint of the newly imported key.
  */
-- (void)importIntoKeyring:(NSString*)key;
+- (NSString*)importIntoKeyring:(NSString*)key;
 
 /**
  Lists the currently stored public keys.

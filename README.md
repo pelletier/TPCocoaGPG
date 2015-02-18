@@ -66,7 +66,7 @@ BOOL unlocks = [gpg checkIfPassphrase:@"pass" unlocksKey:key];
 ### Import a key into the keyring
 
 ```objc
-[gpg importIntoKeyring:key];
+NSString* fingerprint = [gpg importIntoKeyring:key];
 ```
 
 

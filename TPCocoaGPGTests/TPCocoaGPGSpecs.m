@@ -68,6 +68,13 @@ describe(@"TPCocoaGPG", ^{
     expect([key getValue:kTPCocoaGPGKeyIdKey]).to.equal(@"F2479DE6CFB6B695");
   });
   
+  it(@"can import keys and retrieve it by fingerprint", ^{
+    NSString* fingerprint = [gpg importIntoKeyring:pubkeyContent];
+    TPGPGKey* key = [gpg getPublicKeyWithFingerprint:fingerprint];
+    expect(key).toNot.beNil();
+    expect([key getValue:kTPCocoaGPGKeyIdKey]).to.equal(fingerprint);
+  });
+  
   it(@"can retrieve a key by fingerprint", ^{
     [gpg importIntoKeyring:pubkeyContent];
     [gpg importIntoKeyring:privkeyContent];

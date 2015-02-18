@@ -98,10 +98,17 @@
   return keys;
 }
 
-- (void)importIntoKeyring:(NSString*)key {
+- (NSString*)importIntoKeyring:(NSString*)key {
   if (key != nil && key.length > 0) {
-    [self execCommand:@[@"--import"] withInput:[key dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:nil stdoutData:nil andError:nil];
+    NSMutableArray* stderrChunks;
+    [self execCommand:@[@"--import"] withInput:[key dataUsingEncoding:NSUTF8StringEncoding] stderrChunks:&stderrChunks stdoutData:nil andError:nil];
+    for (TPGPGOutputChunk* chunk in stderrChunks) {
+      if ([chunk.key isEqualToString:@"IMPORTED"]) {
+        return [chunk.text componentsSeparatedByString:@" "][0];
+      }
+    }
   }
+  return nil;
 }
 
 - (BOOL)checkIfPassphrase:(NSString*)passphrase unlocksKey:(TPGPGKey*)key {
