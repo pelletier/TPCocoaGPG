@@ -121,7 +121,7 @@ describe(@"TPCocoaGPG", ^{
     TPGPGKey* key = [gpg getSecretKeyWithFingerprint:@"F2479DE6CFB6B695"];
     NSString* message = @"My great message to secure";
     NSData* someData = [message dataUsingEncoding:NSUTF8StringEncoding];
-    NSData* encryptedData = [gpg encryptData:someData withKey:key andPassphrase:@"MyActualPasskey"];
+    NSData* encryptedData = [gpg encryptData:someData withKey:key];
     expect(encryptedData).notTo.beNil;
     NSData* decryptedData = [gpg decryptData:encryptedData withKey:key andPassphrase:@"MyActualPasskey"];
     expect([decryptedData isEqualToData:someData]).to.equal(YES);

@@ -214,15 +214,18 @@
     return nil;
   }
   // FIXME: don't hardcode recipient to self.
-  NSArray* args = @[@"--encrypt",
-                    @"--recipient", key.keyId,
-                    @"--armor",
-                    @"--batch",
-                    @"--passphrase-fd", @"0",
-                    @"--no-use-agent",
-                    @"--local-user", key.keyId,
-                    @"--always-trust"];
-  NSData* input = [self prependPassphrase:passphrase toData:data];
+  NSMutableArray* args = [NSMutableArray arrayWithArray:@[@"--encrypt",
+                                                          @"--recipient", key.keyId,
+                                                          @"--armor",
+                                                          @"--batch",
+                                                          @"--no-use-agent",
+                                                          @"--local-user", key.keyId,
+                                                          @"--always-trust"]];
+  NSData* input = data;
+  if (passphrase != nil) {
+    [args addObjectsFromArray:@[ @"--passphrase-fd", @"0" ]];
+    input = [self prependPassphrase:passphrase toData:data];
+  }
   NSData* stdoutData;
   [self execCommand:args withInput:input stderrChunks:nil stdoutData:&stdoutData andError:nil];
   return stdoutData;
